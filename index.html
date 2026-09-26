@@ -516,21 +516,101 @@
       <!-- ADMINS -->
       <section id="admins" class="page hidden">
 
-        <h2>👑 Admins</h2>
+  <h2>👑 مدیریت ادمین‌ها</h2>
 
-        <div class="panel">
+  <div class="grid-2">
 
-          <div class="admin-item">
-            <strong>Adrian</strong>
-            <span>OWNER</span>
-          </div>
+    <!-- ADD ADMIN -->
+    <div class="panel">
 
-          <div class="admin-item">
-            <strong>Moderator</strong>
-            <span>MODERATOR</span>
-          </div>
+      <h3>➕ افزودن ادمین</h3>
 
+      <input
+        id="adminName"
+        type="text"
+        placeholder="نام ادمین"
+      >
+
+      <input
+        id="adminUsername"
+        type="text"
+        placeholder="Username"
+      >
+
+      <input
+        id="adminUserId"
+        type="text"
+        placeholder="User ID"
+      >
+
+      <select id="adminRole">
+        <option value="admin">ADMIN</option>
+        <option value="moderator">MODERATOR</option>
+        <option value="support">SUPPORT</option>
+      </select>
+
+      <button onclick="addAdmin()">
+        افزودن ادمین
+      </button>
+
+    </div>
+
+
+    <!-- OWNER -->
+    <div class="panel">
+
+      <h3>👑 Owner</h3>
+
+      <div class="admin-item">
+
+        <div>
+          <strong id="ownerPanelName">
+            Adrian
+          </strong>
+
+          <p id="ownerPanelUsername">
+            @Adrian
+          </p>
         </div>
+
+        <span>OWNER</span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ADMINS TABLE -->
+
+  <div class="panel">
+
+    <h3>🛡️ لیست ادمین‌ها</h3>
+
+    <div class="admin-table">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>نام</th>
+            <th>Username</th>
+            <th>User ID</th>
+            <th>Role</th>
+            <th>عملیات</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="adminsTable"></tbody>
+
+      </table>
+
+    </div>
+
+  </div>
 
       </section>
 
