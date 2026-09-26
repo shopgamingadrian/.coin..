@@ -493,3 +493,252 @@ document.addEventListener(
 
   }
 );
+/* =========================
+   ADMIN MANAGER
+========================= */
+
+let admins =
+  JSON.parse(
+    localStorage.getItem("vyrox_admins") || "[]"
+  );
+
+
+function saveAdmins() {
+
+  localStorage.setItem(
+    "vyrox_admins",
+    JSON.stringify(admins)
+  );
+
+}
+
+
+function addAdmin() {
+
+  const name =
+    document.getElementById("adminName").value.trim();
+
+  const username =
+    document.getElementById("adminUsername").value.trim();
+
+  const userId =
+    document.getElementById("adminUserId").value.trim();
+
+  const role =
+    document.getElementById("adminRole").value;
+
+
+  if (!name || !username || !userId) {
+
+    showNotification(
+      "همه اطلاعات را وارد کن ❌"
+    );
+
+    return;
+
+  }
+
+
+  const exists =
+    admins.some(
+      admin =>
+        admin.userId === userId ||
+        admin.username === username
+    );
+
+
+  if (exists) {
+
+    showNotification(
+      "این ادمین قبلاً وجود دارد ❌"
+    );
+
+    return;
+
+  }
+
+
+  const newAdmin = {
+
+    id: Date.now(),
+
+    name: name,
+
+    username: username,
+
+    userId: userId,
+
+    role: role
+
+  };
+
+
+  admins.push(newAdmin);
+
+  saveAdmins();
+
+  renderAdmins();
+
+
+  document.getElementById(
+    "adminName"
+  ).value = "";
+
+  document.getElementById(
+    "adminUsername"
+  ).value = "";
+
+  document.getElementById(
+    "adminUserId"
+  ).value = "";
+
+
+  addLog(
+    "Admin added: " +
+    username
+  );
+
+
+  showNotification(
+    "ادمین اضافه شد 👑"
+  );
+
+}
+
+
+function deleteAdmin(id) {
+
+  const admin =
+    admins.find(
+      item => item.id === id
+    );
+
+
+  if (!admin) return;
+
+
+  const confirmDelete =
+    confirm(
+      "ادمین " +
+      admin.username +
+      " حذف شود؟"
+    );
+
+
+  if (!confirmDelete) return;
+
+
+  admins =
+    admins.filter(
+      item => item.id !== id
+    );
+
+
+  saveAdmins();
+
+  renderAdmins();
+
+
+  addLog(
+    "Admin removed: " +
+    admin.username
+  );
+
+
+  showNotification(
+    "ادمین حذف شد 🗑️"
+  );
+
+}
+
+
+function renderAdmins() {
+
+  const table =
+    document.getElementById(
+      "adminsTable"
+    );
+
+
+  if (!table) return;
+
+
+  table.innerHTML = "";
+
+
+  if (admins.length === 0) {
+
+    table.innerHTML = `
+      <tr>
+        <td colspan="5">
+          هنوز ادمینی اضافه نشده است.
+        </td>
+      </tr>
+    `;
+
+    return;
+
+  }
+
+
+  admins.forEach(admin => {
+
+    const row =
+      document.createElement("tr");
+
+
+    row.innerHTML = `
+
+      <td>
+        ${escapeHTML(admin.name)}
+      </td>
+
+      <td>
+        ${escapeHTML(admin.username)}
+      </td>
+
+      <td>
+        ${escapeHTML(admin.userId)}
+      </td>
+
+      <td>
+        <span class="admin-role">
+          ${escapeHTML(
+            admin.role.toUpperCase()
+          )}
+        </span>
+      </td>
+
+      <td>
+
+        <button
+          class="delete-admin"
+          onclick="deleteAdmin(${admin.id})"
+        >
+          🗑️ حذف
+        </button>
+
+      </td>
+
+    `;
+
+
+    table.appendChild(row);
+
+  });
+
+}
+
+
+/* جلوگیری از تزریق HTML */
+
+function escapeHTML(text) {
+
+  const div =
+    document.createElement("div");
+
+  div.textContent = text;
+
+  return div.innerHTML;
+
+}
