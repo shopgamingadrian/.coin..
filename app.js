@@ -479,6 +479,7 @@ document.addEventListener(
 
     loadConfig();
 
+    renderAdmins();
     if (loggedIn) {
 
       document
