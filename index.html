@@ -1,1 +1,615 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VYROX ADMIN</title>
+  <link rel="stylesheet" href="style.css">
+</head>
 
+<body>
+
+  <!-- LOGIN -->
+  <div id="loginScreen" class="login-screen">
+    <div class="login-card">
+
+      <div class="logo">VYR<span>OX</span></div>
+      <div class="subtitle">ADMIN CONTROL PANEL</div>
+
+      <input
+        id="loginUser"
+        type="text"
+        placeholder="نام کاربری"
+        autocomplete="username"
+      >
+
+      <input
+        id="loginPass"
+        type="password"
+        placeholder="رمز عبور"
+        autocomplete="current-password"
+      >
+
+      <button onclick="login()">ورود به پنل</button>
+
+      <div id="loginMessage"></div>
+
+      <small>VYROX • NEXT GENERATION BOT</small>
+    </div>
+  </div>
+
+
+  <!-- APP -->
+  <div id="app" class="app hidden">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <div class="brand">
+        <div class="brand-logo">VYR<span>OX</span></div>
+        <small>ADMIN PANEL</small>
+      </div>
+
+      <nav>
+
+        <button onclick="openPage('dashboard', this)" class="active">
+          🏠 داشبورد
+        </button>
+
+        <button onclick="openPage('users', this)">
+          👥 کاربران
+        </button>
+
+        <button onclick="openPage('groups', this)">
+          👥 گروه‌ها
+        </button>
+
+        <button onclick="openPage('guard', this)">
+          🛡️ گارد
+        </button>
+
+        <button onclick="openPage('ai', this)">
+          🤖 هوش مصنوعی
+        </button>
+
+        <button onclick="openPage('games', this)">
+          🎮 بازی‌ها
+        </button>
+
+        <button onclick="openPage('economy', this)">
+          💰 اقتصاد
+        </button>
+
+        <button onclick="openPage('broadcast', this)">
+          📢 پیام همگانی
+        </button>
+
+        <button onclick="openPage('analytics', this)">
+          📊 آمار
+        </button>
+
+        <button onclick="openPage('logs', this)">
+          📝 لاگ‌ها
+        </button>
+
+        <button onclick="openPage('admins', this)">
+          👑 ادمین‌ها
+        </button>
+
+        <button onclick="openPage('console', this)">
+          🖥️ کنسول
+        </button>
+
+        <button onclick="openPage('settings', this)">
+          ⚙️ تنظیمات
+        </button>
+
+      </nav>
+
+      <button class="logout-btn" onclick="logout()">
+        🚪 خروج
+      </button>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+
+        <div>
+          <h1 id="pageTitle">داشبورد</h1>
+          <span id="clock"></span>
+        </div>
+
+        <div class="status">
+          <span></span>
+          ONLINE
+        </div>
+
+      </header>
+
+
+      <!-- DASHBOARD -->
+      <section id="dashboard" class="page">
+
+        <div class="welcome">
+          <h2>VYROX ADMIN</h2>
+          <p>
+            کنترل پنل مدیریت ربات
+            <strong id="dashboardBotName">VYROX</strong>
+          </p>
+        </div>
+
+        <div class="stats-grid">
+
+          <div class="stat">
+            <span>👥</span>
+            <div>
+              <small>Users</small>
+              <strong id="usersCount">12,842</strong>
+            </div>
+          </div>
+
+          <div class="stat">
+            <span>👥</span>
+            <div>
+              <small>Groups</small>
+              <strong>426</strong>
+            </div>
+          </div>
+
+          <div class="stat">
+            <span>💬</span>
+            <div>
+              <small>Messages</small>
+              <strong>1,284,521</strong>
+            </div>
+          </div>
+
+          <div class="stat">
+            <span>🎮</span>
+            <div>
+              <small>Games</small>
+              <strong>84,291</strong>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="grid-2">
+
+          <div class="panel">
+            <h3>🟢 وضعیت سیستم</h3>
+
+            <div class="system-row">
+              <span>Backend</span>
+              <b class="green">ONLINE</b>
+            </div>
+
+            <div class="system-row">
+              <span>Database</span>
+              <b class="green">CONNECTED</b>
+            </div>
+
+            <div class="system-row">
+              <span>Bot</span>
+              <b class="green">ONLINE</b>
+            </div>
+
+          </div>
+
+
+          <div class="panel">
+            <h3>⚡ فعالیت اخیر</h3>
+
+            <div id="recentLogs" class="logs-mini">
+              سیستم آماده است.
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- USERS -->
+      <section id="users" class="page hidden">
+
+        <div class="page-head">
+          <h2>👥 کاربران</h2>
+
+          <input
+            type="text"
+            placeholder="جستجوی کاربر..."
+            oninput="searchUsers(this.value)"
+          >
+        </div>
+
+        <div class="panel">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>نام</th>
+                <th>Level</th>
+                <th>XP</th>
+                <th>Coins</th>
+                <th>وضعیت</th>
+              </tr>
+            </thead>
+
+            <tbody id="usersTable">
+
+              <tr>
+                <td>6b5ms0</td>
+                <td>Adrian</td>
+                <td>24</td>
+                <td>18,420</td>
+                <td>32,500</td>
+                <td class="green">ONLINE</td>
+              </tr>
+
+              <tr>
+                <td>dl8mm1</td>
+                <td>Player</td>
+                <td>12</td>
+                <td>7,800</td>
+                <td>8,200</td>
+                <td>OFFLINE</td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </section>
+
+
+      <!-- GROUPS -->
+      <section id="groups" class="page hidden">
+
+        <h2>👥 مدیریت گروه‌ها</h2>
+
+        <div class="stats-grid">
+
+          <div class="stat">
+            <span>👥</span>
+            <div>
+              <small>Groups</small>
+              <strong>426</strong>
+            </div>
+          </div>
+
+          <div class="stat">
+            <span>🛡️</span>
+            <div>
+              <small>Protected</small>
+              <strong>391</strong>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- GUARD -->
+      <section id="guard" class="page hidden">
+
+        <h2>🛡️ Guard</h2>
+
+        <div class="grid-2">
+
+          <div class="panel">
+
+            <h3>محافظت گروه</h3>
+
+            <label>
+              <input type="checkbox" checked>
+              Anti Spam
+            </label>
+
+            <label>
+              <input type="checkbox" checked>
+              Anti Flood
+            </label>
+
+            <label>
+              <input type="checkbox" checked>
+              Anti Link
+            </label>
+
+            <label>
+              <input type="checkbox">
+              Media Lock
+            </label>
+
+          </div>
+
+
+          <div class="panel">
+
+            <h3>سیستم اخطار</h3>
+
+            <p>Warnings: 124</p>
+            <p>Muted: 18</p>
+            <p>Banned: 7</p>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- AI -->
+      <section id="ai" class="page hidden">
+
+        <h2>🤖 هوش مصنوعی</h2>
+
+        <div class="panel">
+
+          <h3>تنظیمات AI</h3>
+
+          <label>
+            <input type="checkbox" checked>
+            پاسخ در PV
+          </label>
+
+          <label>
+            <input type="checkbox" checked>
+            پاسخ با Mention
+          </label>
+
+          <label>
+            <input type="checkbox">
+            پاسخ خودکار گروه
+          </label>
+
+        </div>
+
+      </section>
+
+
+      <!-- GAMES -->
+      <section id="games" class="page hidden">
+
+        <h2>🎮 بازی‌ها</h2>
+
+        <div class="cards">
+
+          <div class="game-card">
+            🎲
+            <h3>Dice</h3>
+            <p>بازی سرگرمی</p>
+          </div>
+
+          <div class="game-card">
+            ✊
+            <h3>Rock Paper Scissors</h3>
+            <p>سنگ کاغذ قیچی</p>
+          </div>
+
+          <div class="game-card">
+            🧠
+            <h3>Trivia</h3>
+            <p>سوالات اطلاعات عمومی</p>
+          </div>
+
+          <div class="game-card">
+            🔢
+            <h3>Guess Number</h3>
+            <p>حدس عدد</p>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ECONOMY -->
+      <section id="economy" class="page hidden">
+
+        <h2>💰 Economy</h2>
+
+        <div class="stats-grid">
+
+          <div class="stat">
+            <span>💰</span>
+            <div>
+              <small>Total Coins</small>
+              <strong>8,492,000</strong>
+            </div>
+          </div>
+
+          <div class="stat">
+            <span>📦</span>
+            <div>
+              <small>Items</small>
+              <strong>2,421</strong>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- BROADCAST -->
+      <section id="broadcast" class="page hidden">
+
+        <h2>📢 پیام همگانی</h2>
+
+        <div class="panel">
+
+          <textarea
+            id="broadcastText"
+            placeholder="پیام خود را بنویسید..."
+          ></textarea>
+
+          <button onclick="sendBroadcast()">
+            ارسال پیام
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <!-- ANALYTICS -->
+      <section id="analytics" class="page hidden">
+
+        <h2>📊 Analytics</h2>
+
+        <div class="stats-grid">
+
+          <div class="stat">
+            <span>📈</span>
+            <div>
+              <small>Daily Users</small>
+              <strong>2,842</strong>
+            </div>
+          </div>
+
+          <div class="stat">
+            <span>💬</span>
+            <div>
+              <small>Daily Messages</small>
+              <strong>42,521</strong>
+            </div>
+          </div>
+
+          <div class="stat">
+            <span>🎮</span>
+            <div>
+              <small>Daily Games</small>
+              <strong>3,421</strong>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- LOGS -->
+      <section id="logs" class="page hidden">
+
+        <h2>📝 Logs</h2>
+
+        <div id="logsBox" class="console-box">
+          سیستم آماده است...
+        </div>
+
+      </section>
+
+
+      <!-- ADMINS -->
+      <section id="admins" class="page hidden">
+
+        <h2>👑 Admins</h2>
+
+        <div class="panel">
+
+          <div class="admin-item">
+            <strong>Adrian</strong>
+            <span>OWNER</span>
+          </div>
+
+          <div class="admin-item">
+            <strong>Moderator</strong>
+            <span>MODERATOR</span>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- CONSOLE -->
+      <section id="console" class="page hidden">
+
+        <h2>🖥️ VYROX CONSOLE</h2>
+
+        <div id="consoleBox" class="console-box">
+
+          <div>[22:41:08] Backend started</div>
+          <div>[22:41:10] Database connected</div>
+          <div>[22:41:12] Bot service initialized</div>
+          <div>[22:41:18] Message received</div>
+          <div>[22:41:19] Message processed</div>
+          <div>[22:41:21] Guard check completed</div>
+
+        </div>
+
+        <div class="console-input">
+
+          <input
+            id="consoleCommand"
+            type="text"
+            placeholder="command..."
+            onkeydown="if(event.key==='Enter') runCommand()"
+          >
+
+          <button onclick="runCommand()">
+            اجرا
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <!-- SETTINGS -->
+      <section id="settings" class="page hidden">
+
+        <h2>⚙️ Settings</h2>
+
+        <div class="panel">
+
+          <h3>اطلاعات VYROX</h3>
+
+          <p>
+            Bot:
+            <strong id="settingsBotName">VYROX</strong>
+          </p>
+
+          <p>
+            Owner:
+            <strong id="settingsOwner">Adrian</strong>
+          </p>
+
+          <p>
+            Username:
+            <strong id="settingsUsername">@YOUR_USERNAME</strong>
+          </p>
+
+          <p>
+            Version:
+            <strong id="settingsVersion">1.0.0</strong>
+          </p>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+
+  <!-- IMPORTANT -->
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+
+</body>
+  </html>
